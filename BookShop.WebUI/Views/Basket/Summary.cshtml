@@ -1,0 +1,25 @@
+﻿@model BookShop.Domain.Entities.Basket
+
+<div class="navbar-right">
+    @Html.ActionLink("Заказать", "Index", "Basket",
+    new { returnUrl = Request.Url.PathAndQuery },
+    new { @class = "btn btn-default navbar-btn" })
+</div>
+
+<div class="navbar-text navbar-right">
+    <b>Ваша корзина:</b>
+    @if(Model.Types.Sum(x => x.Quantity) == 0)
+    {
+         @:@Model.Types.Sum(x => x.Quantity) книг;
+    }
+    else if (Model.Types.Sum(x => x.Quantity) == 1)
+    {
+         @:@Model.Types.Sum(x => x.Quantity) книга;
+    }
+    else
+    {
+        @:@Model.Types.Sum(x => x.Quantity) книги;
+    }
+    @Model.ComputeOrderValue() руб.
+</div>
+

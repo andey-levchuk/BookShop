@@ -1,0 +1,95 @@
+﻿@model BookShop.Domain.Entities.Book
+
+@{
+    ViewBag.Title = "Админ. панель: редактирование";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Редактирование книги "@Model.BookName"</h2>
+
+@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BookID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BookName, 
+               "Пожалуйста, введите название книги", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Author, 
+               "Пожалуйста, введите имя автора книги", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description,
+               new { htmlAttributes = new { @class = "form-control", rows = 7 } })
+                @Html.ValidationMessageFor(model => model.Description, 
+               "Пожалуйста, введите описание книги", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Category, "Пожалуйста, введите название категории книги", 
+               new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, 
+               "Пожалуйста, введите положительное значение для цены книги", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div style="position:relative;">
+                @Html.LabelFor(model => model.ImageType, htmlAttributes: new { @class = "control-label col-md-2" })
+                
+                <a class='btn col-md-2' href='javascript:;'>
+                    Выберите файл...
+                    <input type="file" name="Image" size="40"
+                           style="position:absolute;z-index:2;top:0;
+                                left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                           onchange='$("#upload-file-info").html($(this).val());'>
+                </a>
+                <span class='label label-info' id="upload-file-info"></span>
+            </div>
+            @if (Model.ImageData != null)
+                {
+                <img class="img-thumbnail" width="150" height="150"
+                     src="@Url.Action("GetImage", "Book",
+                        new { Model.BookID })" />
+            }
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new
+           {
+               @class = "btn btn-default"
+           })
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,29 @@
+﻿@model BookShop.Domain.Entities.Book
+
+<div class="well">
+    @if (Model.ImageData != null)
+    {
+        <div class="pull-left" style="margin-right: 10px">
+            <img class="img-thumbnail" width="100" height="100"
+                 src="@Url.Action("GetImage", "Book",
+                new { Model.BookID })" />
+        </div>
+    }
+    
+    <h3>
+        <strong>@Model.BookName</strong>
+        <span class="pull-right label label-primary">@Model.Price.ToString("# руб.")</span><br />
+        <p>@Model.Author</p>
+    </h3>
+    @using (Html.BeginForm("AddToBasket", "Basket"))
+    {
+        <div class="pull-right">
+            @Html.HiddenFor(x => x.BookID)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+        </div>
+    }
+    
+    <p>@Model.Description</p>
+</div>
+
